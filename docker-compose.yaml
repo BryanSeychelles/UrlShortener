@@ -1,0 +1,26 @@
+version: '3.5'
+
+services:
+  postgres:
+    container_name: numberly-postgres-test
+    image: postgres
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DATABASE_OWNER_PASSWORD}
+      PGDATA: /data/postgres
+    volumes:
+      - postgres:/data/postgres
+    ports:
+      - "5436:5432"
+    networks:
+      - postgres
+    env_file:
+      - ./.env
+
+
+networks:
+  postgres:
+    driver: bridge
+
+volumes:
+  postgres:
