@@ -7,3 +7,7 @@ alembic/__pycache__/
 alembic/versions/__pycache__/
 gui/node_modules/
 .env
+.DS_Store
+API/.DS_Store
+alembic/.DS_Store
+gui/.DS_Store
