@@ -21,22 +21,15 @@ class UserService:
             }
         except Exception as e:
             raise e
-            return None
-        pass
 
     def create_user(self):
         try:
             return self.user_repository.create_user()
         except Exception as e:
             raise e
-            return None
-        pass
 
     def verify_user(self, user_id: str):
         try:
             return bool(self.user_repository.get_user(user_id))
         except Exception as e:
             raise e
-            return None
-        pass
-        

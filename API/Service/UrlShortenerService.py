@@ -22,7 +22,6 @@ class UrlShortenerService:
             except Exception as e:
                 logging.error("Error while getting short URL, error: %s", e)
                 raise e
-                return None
         else:
             try:
                 short_url = self.s.tinyurl.short(url)
@@ -32,7 +31,6 @@ class UrlShortenerService:
             except Exception as e:
                 logging.error("Error while shortening URL, error: %s", e)
                 raise e
-                return None
 
     def get_original_url(self, short_url) -> str:
         return self.s.tinyurl.expand(short_url)

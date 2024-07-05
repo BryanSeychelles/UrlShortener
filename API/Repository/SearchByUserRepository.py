@@ -22,8 +22,6 @@ class SearchByUserRepository:
         except Exception as e:
             print("Error while inserting record in create_search_by_user:", e)
             raise e
-            return None
-        pass
 
     def verify_history (self, user_id: str, url_id: str):
         try:
@@ -37,4 +35,3 @@ class SearchByUserRepository:
         except Exception as e:
             print("Error while fetching record in verify_history:", e)
             raise e
-            return None

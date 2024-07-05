@@ -15,8 +15,6 @@ class UserRepository:
             return records[0][0] if records else None
         except Exception as e:
             raise e
-            return None
-        pass
 
     def create_user(self) -> str:
         query = "INSERT INTO users DEFAULT VALUES RETURNING id;"
@@ -26,5 +24,3 @@ class UserRepository:
             return records[0][0] if records else None
         except Exception as e:
             raise e
-            return None
-        pass
