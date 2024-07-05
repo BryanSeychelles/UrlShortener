@@ -17,6 +17,16 @@ class UrlShortenerRepository:
             print("Error while fetching record:", error)
             raise error
 
+    def is_short_url_exists(self, url):
+        try:
+            records = self.db.execute_query(
+                "SELECT shorten FROM urls WHERE shorten = '" + url + "';"
+            )
+            return bool(records)
+        except (Exception, psycopg2.Error) as error:
+            print("Error while fetching record:", error)
+            raise error
+
     def get_short_url(self, url):
         try:
             records = self.db.execute_query(
@@ -27,7 +37,17 @@ class UrlShortenerRepository:
             print("Error while fetching record:", error)
             raise error
 
-    def get_id(self, url):
+    def get_original_url(self, url):
+        try:
+            records = self.db.execute_query(
+                "SELECT current FROM urls WHERE shorten = '" + url + "';"
+            )
+            return records[0][0] if records else None
+        except (Exception, psycopg2.Error) as error:
+            print("Error while fetching record:", error)
+            raise error
+
+    def get_id_by_orignal_url(self, url):
         try:
             records = self.db.execute_query(
                 "SELECT id FROM urls WHERE current = '" + url + "';"
@@ -36,7 +56,16 @@ class UrlShortenerRepository:
         except (Exception, psycopg2.Error) as error:
             print("Error while fetching record:", error)
             raise error
-            return None
+
+    def get_id_by_shorten_url(self, url):
+        try:
+            records = self.db.execute_query(
+                "SELECT id FROM urls WHERE shorten = '" + url + "';"
+            )
+            return records[0][0] if records else None
+        except (Exception, psycopg2.Error) as error:
+            print("Error while fetching record:", error)
+            raise error
 
     def create_short_url(self, url, short_url, user_id):
         query = (

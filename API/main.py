@@ -75,8 +75,15 @@ def main(item: Item, request: Request, response: Response):
 
 
 @app.post("/originalUrl")
-def get_original_url(item: Item):
+def get_original_url(item: Item, request: Request):
     try:
-        return {"url": urlShortenerService.get_original_url(item.url)}
+        if "id" in request.cookies and userService.verify_user(request.cookies["id"]):
+            user_id = request.cookies["id"]
+        else:
+            user_id = userService.create_user()
+            response.set_cookie(key="id", value=user_id)
+
+        url = urlShortenerService.get_original_url(item.url, user_id)
+        return {"url": url}
     except Exception as e:
         return HTTPException(status_code=500, detail=str(e))

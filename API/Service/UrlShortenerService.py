@@ -14,7 +14,7 @@ class UrlShortenerService:
             print("URL already exists")
             try:
                 short_url = self.url_shortener_repository.get_short_url(url)
-                url_id = self.url_shortener_repository.get_id(url)
+                url_id = self.url_shortener_repository.get_id_by_orignal_url(url)
                 if not self.sbur.verify_history(user_id, url_id):
                     print("Creating search by user")
                     self.sbur.create_search_by_user(user_id, url_id)
@@ -32,5 +32,14 @@ class UrlShortenerService:
                 logging.error("Error while shortening URL, error: %s", e)
                 raise e
 
-    def get_original_url(self, short_url) -> str:
-        return self.s.tinyurl.expand(short_url)
+    def get_original_url(self, short_url, user_id) -> str:
+        if self.url_shortener_repository.is_short_url_exists(short_url):
+            url = self.url_shortener_repository.get_original_url(short_url)
+            url_id = self.url_shortener_repository.get_id_by_shorten_url(short_url)
+            print(url_id, "url_id in get_original_url")
+            if not self.sbur.verify_history(user_id, url_id):
+                print("Creating search by user")
+                self.sbur.create_search_by_user(user_id, url_id)
+            return url
+        else:
+            return self.s.tinyurl.expand(short_url)
